@@ -1,15 +1,17 @@
-package com.dendron.easyweather.ui.theme
+package com.dendron.easyweather.presentation.ui.theme
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.darkColors
 import androidx.compose.material.lightColors
 import androidx.compose.runtime.Composable
+import com.dendron.easyweather.ui.theme.*
 
 private val DarkColorPalette = darkColors(
-    primary = Purple200,
-    primaryVariant = Purple700,
-    secondary = Teal200
+    primary = Red700,
+    primaryVariant = Red500,
+    secondary = Red200,
+    background = Navy,
 )
 
 private val LightColorPalette = lightColors(
