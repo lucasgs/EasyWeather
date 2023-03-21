@@ -6,10 +6,12 @@ import com.dendron.easyweather.domain.WeatherRepository
 import javax.inject.Inject
 
 class RemoteWeatherRepository @Inject constructor(private val api: WeatherApi) : WeatherRepository {
-    override suspend fun getWeather(
-        latitude: Double, longitude: Double
-    ): Weather =
-        api.getWeather(
-            latitude = latitude, longitude = longitude
+
+    override suspend fun getCurrentWeather(latitude: Double, longitude: Double): Weather {
+        return api.getCurrentWeather(
+            latitude = latitude,
+            longitude = longitude,
         ).toDomain()
+    }
+
 }

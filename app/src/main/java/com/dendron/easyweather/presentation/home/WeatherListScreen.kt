@@ -1,25 +1,23 @@
 package com.dendron.easyweather.presentation.home
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Cloud
-import androidx.compose.material.icons.filled.DeviceThermostat
-import androidx.compose.material.icons.filled.Speed
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
+import com.dendron.easyweather.R
 import com.dendron.easyweather.presentation.ui.theme.BlueLight
 import com.dendron.easyweather.presentation.ui.theme.Navy
-import com.dendron.easyweather.presentation.ui.theme.WhiteDark
 import com.dendron.easyweather.presentation.ui.theme.WhiteLight
 
 @Composable
@@ -44,14 +42,14 @@ fun HomeScreen(
                     horizontalAlignment = Alignment.Start,
                     modifier = Modifier
                         .fillMaxHeight(0.8f)
-                        .padding(40.dp)
+                        .padding(50.dp)
                 ) {
-                    Icon(
-                        imageVector = Icons.Default.Cloud,
-                        tint = BlueLight,
-                        contentDescription = it.descriptionText,
+                    Image(
+                        painter = painterResource(id = it.weatherIcon),
+                        contentDescription = null,
+                        colorFilter = ColorFilter.tint(BlueLight),
                         modifier = Modifier
-                            .size(52.dp)
+                            .size(60.dp)
                     )
                     Spacer(modifier = Modifier.height(4.dp))
                     Text(
@@ -64,30 +62,32 @@ fun HomeScreen(
                 Column(
                     modifier = Modifier
                         .align(Alignment.BottomStart)
-                        .padding(16.dp)
+                        .padding(8.dp)
                 ) {
                     Row(
                         horizontalArrangement = Arrangement
                             .spacedBy(4.dp),
+                        verticalAlignment = Alignment.CenterVertically,
                         modifier = Modifier
                             .padding(8.dp)
                     ) {
-                        Icon(
-                            imageVector = Icons.Default.Speed,
-                            tint = WhiteDark,
-                            contentDescription = null
+                        Image(
+                            painter = painterResource(id = R.drawable.wind),
+                            contentDescription = null,
+                            colorFilter = ColorFilter.tint(BlueLight),
                         )
                         Text(text = it.windText, color = Color.White)
                     }
                     Row(
                         horizontalArrangement = Arrangement.spacedBy(4.dp),
+                        verticalAlignment = Alignment.CenterVertically,
                         modifier = Modifier
                             .padding(8.dp)
                     ) {
-                        Icon(
-                            imageVector = Icons.Default.DeviceThermostat,
-                            tint = WhiteDark,
-                            contentDescription = null
+                        Image(
+                            painter = painterResource(id = R.drawable.thermometer),
+                            contentDescription = null,
+                            colorFilter = ColorFilter.tint(BlueLight),
                         )
                         Text(text = it.temperatureText, color = Color.White)
                     }

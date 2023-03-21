@@ -1,5 +1,5 @@
 package com.dendron.easyweather.domain
 
 interface WeatherRepository {
-    suspend fun getWeather(latitude: Double, longitude: Double): Weather
+    suspend fun getCurrentWeather(latitude: Double, longitude: Double): Weather
 }
