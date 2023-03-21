@@ -3,31 +3,30 @@ package com.dendron.easyweather.presentation.home
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.dendron.easyweather.domain.WeatherRepository
+import com.dendron.easyweather.domain.location.LocationProvider
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class WeatherListViewModel @Inject constructor(private val weatherRepository: WeatherRepository) :
-    ViewModel() {
+class WeatherListViewModel @Inject constructor(
+    private val weatherRepository: WeatherRepository,
+    private val locationProvider: LocationProvider,
+) : ViewModel() {
 
     private val _state = MutableStateFlow(WeatherListState())
     val state = _state.asStateFlow()
 
-    init {
-        fetchData()
-    }
-
-    private fun fetchData() {
+    fun fetchData() {
         viewModelScope.launch {
-            weatherRepository.getWeather(
-                latitude =-38.00,
-                longitude=-57.56
-            ).onEach { weather ->
+            val currentLocation = locationProvider.getCurrentLocation()
+            currentLocation?.let { location ->
+                val weather = weatherRepository.getWeather(
+                    latitude = location.latitude,
+                    longitude = location.longitude,
+                )
                 val model = WeatherUiModel(
 //                    descriptionText = "It's warmer this afternoon than yesterday afternoon.",
                     descriptionText = getWeatherDescription(weather.weatherCode),
@@ -35,7 +34,7 @@ class WeatherListViewModel @Inject constructor(private val weatherRepository: We
                     temperatureText = "${weather.minTemperature}° / ${weather.maxTemperature}°"
                 )
                 _state.value = WeatherListState(data = model)
-            }.stateIn(viewModelScope)
+            }
         }
     }
 
@@ -54,6 +53,6 @@ class WeatherListViewModel @Inject constructor(private val weatherRepository: We
             85, 86 -> "Snow showers slight and heavy"
             95 -> "Thunderstorm: Slight or moderate"
             96, 99 -> "Thunderstorm with slight and heavy hail"
-            else -> ""
+            else -> "Nothing to say :("
         }
 }

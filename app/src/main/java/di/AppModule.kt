@@ -1,11 +1,18 @@
 package di
 
+import android.app.Application
+import android.content.Context
+import com.dendron.easyweather.data.location.DefaultLocationProvider
+import com.dendron.easyweather.data.remote.RemoteWeatherRepository
+import com.dendron.easyweather.data.remote.WeatherApi
 import com.dendron.easyweather.domain.WeatherRepository
-import com.dendron.easyweather.remote.RemoteWeatherRepository
-import com.dendron.easyweather.remote.WeatherApi
+import com.dendron.easyweather.domain.location.LocationProvider
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -34,5 +41,24 @@ object AppModule {
     @Singleton
     fun provideWeatherRepository(api: WeatherApi): WeatherRepository {
         return RemoteWeatherRepository(api)
+    }
+
+
+    @Provides
+    @Singleton
+    fun provideFusedLocationProviderClient(@ApplicationContext appContext: Context): FusedLocationProviderClient {
+        return LocationServices.getFusedLocationProviderClient(appContext)
+    }
+
+    @Provides
+    @Singleton
+    fun provideLocationProvider(
+        appContext: Application,
+        locationClient: FusedLocationProviderClient
+    ): LocationProvider {
+        return DefaultLocationProvider(
+            locationClient = locationClient,
+            application = appContext,
+        )
     }
 }

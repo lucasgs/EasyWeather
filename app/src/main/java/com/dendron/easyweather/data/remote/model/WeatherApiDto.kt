@@ -1,4 +1,4 @@
-package com.dendron.easyweather.remote.model
+package com.dendron.easyweather.data.remote.model
 
 import com.dendron.easyweather.domain.Weather
 import com.google.gson.annotations.SerializedName

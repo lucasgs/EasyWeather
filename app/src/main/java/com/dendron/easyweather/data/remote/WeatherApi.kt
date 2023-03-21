@@ -1,6 +1,6 @@
-package com.dendron.easyweather.remote
+package com.dendron.easyweather.data.remote
 
-import com.dendron.easyweather.remote.model.WeatherApiModel
+import com.dendron.easyweather.data.remote.model.WeatherApiModel
 import retrofit2.http.GET
 import retrofit2.http.Query
 

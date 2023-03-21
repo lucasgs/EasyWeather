@@ -1,4 +1,4 @@
-package com.dendron.easyweather.remote.model
+package com.dendron.easyweather.data.remote.model
 
 data class DailyDto(
     val precipitation_sum: List<Double>,
