@@ -28,6 +28,8 @@ class RemoteWeatherRepository @Inject constructor(private val api: WeatherApi) :
             emit(Resource.Error(e.localizedMessage))
         } catch (e: IOException) {
             emit(Resource.Error(e.localizedMessage))
+        } catch (e: Exception) {
+            emit(Resource.Error(e.localizedMessage))
         }
     }
 }

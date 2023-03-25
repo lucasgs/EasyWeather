@@ -87,4 +87,12 @@ dependencies {
 
     // Pull to refresh
     implementation "androidx.compose.material:material:$material_version"
+
+    // Mocks
+    testImplementation "org.mockito:mockito-core:$mockito_version"
+    testImplementation "org.mockito.kotlin:mockito-kotlin:$mockitoKotlin_version"
+    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutines_version"
+
+    // Turbine for testing flows
+    testImplementation 'app.cash.turbine:turbine:0.12.1'
 }
