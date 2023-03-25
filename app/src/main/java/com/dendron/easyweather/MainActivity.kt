@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.ui.Modifier
-import androidx.navigation.compose.rememberNavController
 import com.dendron.easyweather.presentation.home.HomeScreen
 import com.dendron.easyweather.presentation.home.WeatherListViewModel
 import com.dendron.easyweather.presentation.ui.theme.EasyWeatherTheme
@@ -42,8 +41,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    val navController = rememberNavController()
-                    HomeScreen(navController = navController)
+                    HomeScreen()
                 }
             }
         }
