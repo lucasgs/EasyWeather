@@ -1,8 +1,6 @@
 # EasyWeather
 A simple Jetpack Compose weather app
 
-![](screenshots/easyweather.png) 
-
 ## Android Architecture Component
 
 [Architecture](https://github.com/googlesamples/android-architecture-components)
