@@ -3,11 +3,14 @@ package com.dendron.easyweather.presentation.home
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.dendron.easyweather.R
+import com.dendron.easyweather.common.Resource
 import com.dendron.easyweather.domain.WeatherRepository
 import com.dendron.easyweather.domain.location.LocationProvider
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -24,19 +27,28 @@ class WeatherListViewModel @Inject constructor(
         viewModelScope.launch {
             val currentLocation = locationProvider.getCurrentLocation()
             currentLocation?.let { location ->
-                val weather = weatherRepository.getCurrentWeather(
+                weatherRepository.getCurrentWeather(
                     latitude = location.latitude,
                     longitude = location.longitude,
-                )
-                val windDirectionText = getWindDirection(weather.windDirection)
-                val model = WeatherUiModel(
-                    weatherIcon = getWeatherImage(weather.weatherCode),
+                ).onEach { result ->
+                    when (result) {
+                        is Resource.Success -> {
+                            val weather = result.data
+                            val windDirectionText = getWindDirection(weather.windDirection)
+                            val model = WeatherUiModel(
+                                weatherIcon = getWeatherImage(weather.weatherCode),
 //                    descriptionText = "It's warmer this afternoon than yesterday afternoon.",
-                    descriptionText = getWeatherDescription(weather.weatherCode),
-                    windText = "${weather.windSpeed} ${weather.weatherUnit.wind} $windDirectionText",
-                    temperatureText = "${weather.minTemperature}° / ${weather.currentTemperature}° / ${weather.maxTemperature}°"
-                )
-                _state.value = WeatherListState(data = model)
+                                descriptionText = getWeatherDescription(weather.weatherCode),
+                                windText = "${weather.windSpeed} ${weather.weatherUnit.wind} $windDirectionText",
+                                temperatureText = "${weather.minTemperature}° / ${weather.currentTemperature}° / ${weather.maxTemperature}°"
+                            )
+                            _state.value = WeatherListState(data = model)
+                        }
+                        is Resource.Error -> _state.value =
+                            WeatherListState(error = result.message.toString())
+                        is Resource.Loading -> _state.value = WeatherListState(isLoading = true)
+                    }
+                }.launchIn(viewModelScope)
             }
         }
     }
@@ -78,7 +90,7 @@ class WeatherListViewModel @Inject constructor(
             1, 2, 3 -> R.drawable.cloudy
             45, 48 -> R.drawable.fog
             51, 53, 55, 56, 57 -> R.drawable.drizzle
-            61,  63, 65, 66, 67 -> R.drawable.rain
+            61, 63, 65, 66, 67 -> R.drawable.rain
             71, 73, 75, 77 -> R.drawable.snow
             80, 81, 82, 85, 86 -> R.drawable.showers
             95, 96, 99 -> R.drawable.thunderstorm
