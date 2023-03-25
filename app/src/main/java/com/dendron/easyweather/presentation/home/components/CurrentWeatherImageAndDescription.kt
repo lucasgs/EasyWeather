@@ -20,6 +20,7 @@ fun CurrentWeatherImageAndDescription(model: WeatherUiModel) {
         verticalArrangement = Arrangement.Bottom,
         horizontalAlignment = Alignment.Start,
         modifier = Modifier
+            .fillMaxWidth()
             .fillMaxHeight(0.8f)
             .padding(50.dp)
     ) {
@@ -35,7 +36,6 @@ fun CurrentWeatherImageAndDescription(model: WeatherUiModel) {
             model.descriptionText,
             color = WhiteLight,
             fontSize = MaterialTheme.typography.h5.fontSize,
-            modifier = Modifier
         )
     }
 }

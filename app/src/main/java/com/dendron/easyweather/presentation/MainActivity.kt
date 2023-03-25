@@ -1,4 +1,4 @@
-package com.dendron.easyweather
+package com.dendron.easyweather.presentation
 
 import android.Manifest
 import android.os.Bundle
@@ -8,12 +8,12 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.ui.Modifier
 import com.dendron.easyweather.presentation.home.HomeScreen
 import com.dendron.easyweather.presentation.home.WeatherListViewModel
 import com.dendron.easyweather.presentation.ui.theme.EasyWeatherTheme
+import com.dendron.easyweather.presentation.ui.theme.Navy
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -38,8 +38,8 @@ class MainActivity : ComponentActivity() {
         setContent {
             EasyWeatherTheme {
                 Surface(
+                    color = Navy,
                     modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colors.background
                 ) {
                     HomeScreen()
                 }
