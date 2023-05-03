@@ -43,14 +43,18 @@ class DefaultLocationProvider(
             locationClient.lastLocation.apply {
                 if (isComplete) {
                     if (isSuccessful) {
-                        cont.resume(result.toDomain(), onCancellation = null)
+                        result?.let {
+                            cont.resume(it.toDomain(), onCancellation = null)
+                        }
                     } else {
                         cont.resume(null, onCancellation = null)
                     }
                     return@suspendCancellableCoroutine
                 }
                 addOnSuccessListener {
-                    cont.resume(result.toDomain(), onCancellation = null)
+                    result?.let {
+                        cont.resume(it.toDomain(), onCancellation = null)
+                    }
                 }
                 addOnFailureListener {
                     cont.resume(null, onCancellation = null)
